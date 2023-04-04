@@ -29,8 +29,8 @@ Feature: undefined step snippets
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-              ctx.Step(`^I send "([^"]*)" request to "([^"]*)"$`, iSendRequestTo)
-              ctx.Step(`^the response code should be (\d+)$`, theResponseCodeShouldBe)
+              ctx.When(`^I send "([^"]*)" request to "([^"]*)"$`, iSendRequestTo)
+              ctx.Then(`^the response code should be (\d+)$`, theResponseCodeShouldBe)
       }
       """
 
@@ -65,9 +65,9 @@ Feature: undefined step snippets
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-              ctx.Step(`^I send "([^"]*)" request to "([^"]*)" with:$`, iSendRequestToWith)
-              ctx.Step(`^the response body should be:$`, theResponseBodyShouldBe)
-              ctx.Step(`^the response code should be (\d+) and header "([^"]*)" should be "([^"]*)"$`, theResponseCodeShouldBeAndHeaderShouldBe)
+              ctx.When(`^I send "([^"]*)" request to "([^"]*)" with:$`, iSendRequestToWith)
+              ctx.Then(`^the response body should be:$`, theResponseBodyShouldBe)
+              ctx.Then(`^the response code should be (\d+) and header "([^"]*)" should be "([^"]*)"$`, theResponseCodeShouldBeAndHeaderShouldBe)
       }
       """
 
@@ -97,8 +97,8 @@ Feature: undefined step snippets
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-              ctx.Step(`^I pull from github\.com$`, iPullFromGithubcom)
-              ctx.Step(`^the project should be there$`, theProjectShouldBeThere)
+              ctx.When(`^I pull from github\.com$`, iPullFromGithubcom)
+              ctx.Then(`^the project should be there$`, theProjectShouldBeThere)
       }
       """
 
@@ -123,8 +123,8 @@ Feature: undefined step snippets
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-              ctx.Step(`^I add the "([^"]*)" to the basket$`, iAddTheToTheBasket)
-              ctx.Step(`^there is a "([^"]*)", which costs £(\d+)$`, thereIsAWhichCosts)
+              ctx.Given(`^I add the "([^"]*)" to the basket$`, iAddTheToTheBasket)
+              ctx.When(`^there is a "([^"]*)", which costs £(\d+)$`, thereIsAWhichCosts)
       }
       """
 
@@ -149,7 +149,7 @@ Feature: undefined step snippets
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-              ctx.Step(`^(\d+) godogs$`, godogs)
-              ctx.Step(`^"([^"]*)", which costs £(\d+)$`, whichCosts)
+              ctx.Given(`^(\d+) godogs$`, godogs)
+              ctx.Given(`^"([^"]*)", which costs £(\d+)$`, whichCosts)
       }
       """

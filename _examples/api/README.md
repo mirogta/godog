@@ -76,9 +76,9 @@ func (a *apiFeature) theResponseShouldMatchJSON(body *godog.DocString) error {
 
 func InitializeScenario(s *godog.ScenarioContext) {
 	api := &apiFeature{}
-	s.Step(`^I send "([^"]*)" request to "([^"]*)"$`, api.iSendrequestTo)
-	s.Step(`^the response code should be (\d+)$`, api.theResponseCodeShouldBe)
-	s.Step(`^the response should match json:$`, api.theResponseShouldMatchJSON)
+	s.When(`^I send "([^"]*)" request to "([^"]*)"$`, api.iSendrequestTo)
+	s.Then(`^the response code should be (\d+)$`, api.theResponseCodeShouldBe)
+	s.Then(`^the response should match json:$`, api.theResponseShouldMatchJSON)
 }
 ```
 
@@ -165,9 +165,9 @@ func InitializeScenario(s *godog.ScenarioContext) {
 		return ctx, nil
 	})
 
-	s.Step(`^I send "(GET|POST|PUT|DELETE)" request to "([^"]*)"$`, api.iSendrequestTo)
-	s.Step(`^the response code should be (\d+)$`, api.theResponseCodeShouldBe)
-	s.Step(`^the response should match json:$`, api.theResponseShouldMatchJSON)
+	s.When(`^I send "(GET|POST|PUT|DELETE)" request to "([^"]*)"$`, api.iSendrequestTo)
+	s.Then(`^the response code should be (\d+)$`, api.theResponseCodeShouldBe)
+	s.Then(`^the response should match json:$`, api.theResponseShouldMatchJSON)
 }
 ```
 

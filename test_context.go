@@ -10,7 +10,7 @@ import (
 	"github.com/cucumber/godog/internal/builder"
 	"github.com/cucumber/godog/internal/flags"
 	"github.com/cucumber/godog/internal/models"
-	"github.com/cucumber/messages/go/v21"
+	messages "github.com/cucumber/messages/go/v21"
 )
 
 // GherkinDocument represents gherkin document.
@@ -250,6 +250,10 @@ func (ctx *ScenarioContext) AfterStep(fn func(st *Step, err error)) {
 // If none of the *StepDefinition is matched, then
 // ErrUndefined error will be returned when
 // running steps.
+//
+// Deprecated: The Step is a generic abstraction of Given/When/Then.
+// Use Given, When or Then funcs instead
+// to match the step definition in a feature file.
 func (ctx *ScenarioContext) Step(expr, stepFunc interface{}) {
 	ctx.stepWithKeyword(expr, stepFunc, formatters.None)
 }

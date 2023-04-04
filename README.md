@@ -133,9 +133,9 @@ func thereShouldBeRemaining(arg1 int) error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-        ctx.Step(`^I eat (\d+)$`, iEat)
-        ctx.Step(`^there are (\d+) godogs$`, thereAreGodogs)
-        ctx.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
+        ctx.Given(`^I eat (\d+)$`, iEat)
+        ctx.When(`^there are (\d+) godogs$`, thereAreGodogs)
+        ctx.Then(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
 }
 ```
 
@@ -158,9 +158,9 @@ func thereShouldBeRemaining(arg1 int) error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-        ctx.Step(`^there are (\d+) godogs$`, thereAreGodogs)
-        ctx.Step(`^I eat (\d+)$`, iEat)
-        ctx.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
+        ctx.Given(`^there are (\d+) godogs$`, thereAreGodogs)
+        ctx.When(`^I eat (\d+)$`, iEat)
+        ctx.Then(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
 }
 ```
 
@@ -307,9 +307,9 @@ func TestFeatures(t *testing.T) {
 }
 
 func InitializeScenario(sc *godog.ScenarioContext) {
-  sc.Step(`^there are (\d+) godogs$`, thereAreGodogs)
-  sc.Step(`^I eat (\d+)$`, iEat)
-  sc.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
+  sc.Given(`^there are (\d+) godogs$`, thereAreGodogs)
+  sc.When(`^I eat (\d+)$`, iEat)
+  sc.Then(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
 }
 
 ```

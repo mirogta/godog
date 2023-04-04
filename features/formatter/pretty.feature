@@ -304,8 +304,8 @@ Feature: pretty formatter
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-        ctx.Step(`^undefined doc string$`, undefinedDocString)
-        ctx.Step(`^undefined table$`, undefinedTable)
+        ctx.Given(`^undefined doc string$`, undefinedDocString)
+        ctx.Given(`^undefined table$`, undefinedTable)
       }
     """
 
@@ -580,7 +580,7 @@ Feature: pretty formatter
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-        ctx.Step(`^a when step$`, aWhenStep)
+        ctx.Given(`^a when step$`, aWhenStep)
       }
     """
 
@@ -615,7 +615,7 @@ Feature: pretty formatter
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-        ctx.Step(`^a then step$`, aThenStep)
+        ctx.When(`^a then step$`, aThenStep)
       }
     """
 
@@ -650,7 +650,7 @@ Feature: pretty formatter
       }
 
       func InitializeScenario(ctx *godog.ScenarioContext) {
-        ctx.Step(`^a given step$`, aGivenStep)
+        ctx.Then(`^a given step$`, aGivenStep)
       }
     """
 

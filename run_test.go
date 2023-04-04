@@ -13,8 +13,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cucumber/gherkin/go/v26"
-	"github.com/cucumber/messages/go/v21"
+	gherkin "github.com/cucumber/gherkin/go/v26"
+	messages "github.com/cucumber/messages/go/v21"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -40,7 +40,7 @@ func TestPrintsStepDefinitions(t *testing.T) {
 	}
 
 	for _, step := range steps {
-		ctx.Step(step, okStep)
+		ctx.When(step, okStep)
 	}
 
 	printStepDefinitions(s.steps, w)
@@ -95,8 +95,8 @@ func Test_FailsOrPassesBasedOnStrictModeWhenHasPendingSteps(t *testing.T) {
 			})
 		},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^one$`, func() error { return nil })
-			ctx.Step(`^two$`, func() error { return ErrPending })
+			ctx.When(`^one$`, func() error { return nil })
+			ctx.Then(`^two$`, func() error { return ErrPending })
 		},
 	}
 
@@ -132,7 +132,7 @@ func Test_FailsOrPassesBasedOnStrictModeWhenHasUndefinedSteps(t *testing.T) {
 		fmt:      formatters.ProgressFormatterFunc("progress", ioutil.Discard),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^one$`, func() error { return nil })
+			ctx.When(`^one$`, func() error { return nil })
 			// two - is undefined
 		},
 	}
@@ -165,8 +165,8 @@ func Test_ShouldFailOnError(t *testing.T) {
 		fmt:      formatters.ProgressFormatterFunc("progress", ioutil.Discard),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^two$`, func() error { return fmt.Errorf("error") })
-			ctx.Step(`^one$`, func() error { return nil })
+			ctx.When(`^two$`, func() error { return fmt.Errorf("error") })
+			ctx.Then(`^one$`, func() error { return nil })
 		},
 	}
 
@@ -368,10 +368,10 @@ func Test_RandomizeRun_WithStaticSeed(t *testing.T) {
 	const featurePath = "internal/formatters/formatter-tests/features/with_few_empty_scenarios.feature"
 
 	fmtOutputScenarioInitializer := func(ctx *ScenarioContext) {
-		ctx.Step(`^(?:a )?failing step`, failingStepDef)
-		ctx.Step(`^(?:a )?pending step$`, pendingStepDef)
-		ctx.Step(`^(?:a )?passing step$`, passingStepDef)
-		ctx.Step(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
+		ctx.When(`^(?:a )?failing step`, failingStepDef)
+		ctx.When(`^(?:a )?pending step$`, pendingStepDef)
+		ctx.When(`^(?:a )?passing step$`, passingStepDef)
+		ctx.When(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
 	}
 
 	expectedStatus, expectedOutput := testRun(t,
@@ -407,10 +407,10 @@ func Test_RandomizeRun_RerunWithSeed(t *testing.T) {
 	const featurePath = "internal/formatters/formatter-tests/features/with_few_empty_scenarios.feature"
 
 	fmtOutputScenarioInitializer := func(ctx *ScenarioContext) {
-		ctx.Step(`^(?:a )?failing step`, failingStepDef)
-		ctx.Step(`^(?:a )?pending step$`, pendingStepDef)
-		ctx.Step(`^(?:a )?passing step$`, passingStepDef)
-		ctx.Step(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
+		ctx.When(`^(?:a )?failing step`, failingStepDef)
+		ctx.When(`^(?:a )?pending step$`, pendingStepDef)
+		ctx.When(`^(?:a )?passing step$`, passingStepDef)
+		ctx.When(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
 	}
 
 	expectedStatus, expectedOutput := testRun(t,
@@ -442,10 +442,10 @@ func Test_FormatOutputRun(t *testing.T) {
 	const featurePath = "internal/formatters/formatter-tests/features/with_few_empty_scenarios.feature"
 
 	fmtOutputScenarioInitializer := func(ctx *ScenarioContext) {
-		ctx.Step(`^(?:a )?failing step`, failingStepDef)
-		ctx.Step(`^(?:a )?pending step$`, pendingStepDef)
-		ctx.Step(`^(?:a )?passing step$`, passingStepDef)
-		ctx.Step(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
+		ctx.When(`^(?:a )?failing step`, failingStepDef)
+		ctx.When(`^(?:a )?pending step$`, pendingStepDef)
+		ctx.When(`^(?:a )?passing step$`, passingStepDef)
+		ctx.When(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
 	}
 
 	expectedStatus, expectedOutput := testRun(t,
@@ -484,10 +484,10 @@ func Test_FormatOutputRun_Error(t *testing.T) {
 	const featurePath = "internal/formatters/formatter-tests/features/with_few_empty_scenarios.feature"
 
 	fmtOutputScenarioInitializer := func(ctx *ScenarioContext) {
-		ctx.Step(`^(?:a )?failing step`, failingStepDef)
-		ctx.Step(`^(?:a )?pending step$`, pendingStepDef)
-		ctx.Step(`^(?:a )?passing step$`, passingStepDef)
-		ctx.Step(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
+		ctx.When(`^(?:a )?failing step`, failingStepDef)
+		ctx.When(`^(?:a )?pending step$`, pendingStepDef)
+		ctx.When(`^(?:a )?passing step$`, passingStepDef)
+		ctx.When(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
 	}
 
 	expectedStatus, expectedOutput := exitOptionError, ""
@@ -587,10 +587,10 @@ func Test_FormatterConcurrencyRun(t *testing.T) {
 	const noConcurrency = 1
 
 	fmtOutputScenarioInitializer := func(ctx *ScenarioContext) {
-		ctx.Step(`^(?:a )?failing step`, failingStepDef)
-		ctx.Step(`^(?:a )?pending step$`, pendingStepDef)
-		ctx.Step(`^(?:a )?passing step$`, passingStepDef)
-		ctx.Step(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
+		ctx.When(`^(?:a )?failing step`, failingStepDef)
+		ctx.When(`^(?:a )?pending step$`, pendingStepDef)
+		ctx.When(`^(?:a )?passing step$`, passingStepDef)
+		ctx.When(`^odd (\d+) and even (\d+) number$`, oddEvenStepDef)
 	}
 
 	for _, formatter := range formatters {

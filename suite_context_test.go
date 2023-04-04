@@ -12,8 +12,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cucumber/gherkin/go/v26"
-	"github.com/cucumber/messages/go/v21"
+	gherkin "github.com/cucumber/gherkin/go/v26"
+	messages "github.com/cucumber/messages/go/v21"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/cucumber/godog/colors"
@@ -38,39 +38,42 @@ func InitializeScenario(ctx *ScenarioContext) {
 
 	ctx.Before(tc.ResetBeforeEachScenario)
 
-	ctx.Step(`^(?:a )?feature path "([^"]*)"$`, tc.featurePath)
-	ctx.Step(`^I parse features$`, tc.parseFeatures)
-	ctx.Step(`^I'm listening to suite events$`, tc.iAmListeningToSuiteEvents)
-	ctx.Step(`^I run feature suite$`, tc.iRunFeatureSuite)
-	ctx.Step(`^I run feature suite with tags "([^"]*)"$`, tc.iRunFeatureSuiteWithTags)
-	ctx.Step(`^I run feature suite with formatter "([^"]*)"$`, tc.iRunFeatureSuiteWithFormatter)
-	ctx.Step(`^(?:I )(allow|disable) variable injection`, tc.iSetVariableInjectionTo)
-	ctx.Step(`^(?:a )?feature "([^"]*)"(?: file)?:$`, tc.aFeatureFile)
-	ctx.Step(`^the suite should have (passed|failed)$`, tc.theSuiteShouldHave)
+	ctx.Given(`^(?:a )?feature path "([^"]*)"$`, tc.featurePath)
 
-	ctx.Step(`^I should have ([\d]+) features? files?:$`, tc.iShouldHaveNumFeatureFiles)
-	ctx.Step(`^I should have ([\d]+) scenarios? registered$`, tc.numScenariosRegistered)
-	ctx.Step(`^there (was|were) ([\d]+) "([^"]*)" events? fired$`, tc.thereWereNumEventsFired)
-	ctx.Step(`^there was event triggered before scenario "([^"]*)"$`, tc.thereWasEventTriggeredBeforeScenario)
-	ctx.Step(`^these events had to be fired for a number of times:$`, tc.theseEventsHadToBeFiredForNumberOfTimes)
+	ctx.When(`^I parse features$`, tc.parseFeatures)
+	ctx.Given(`^I'm listening to suite events$`, tc.iAmListeningToSuiteEvents)
+	ctx.When(`^I run feature suite$`, tc.iRunFeatureSuite)
+	ctx.When(`^I run feature suite with tags "([^"]*)"$`, tc.iRunFeatureSuiteWithTags)
+	ctx.When(`^I run feature suite with formatter "([^"]*)"$`, tc.iRunFeatureSuiteWithFormatter)
+	ctx.Then(`^(?:I )(allow|disable) variable injection`, tc.iSetVariableInjectionTo)
+	ctx.Given(`^(?:a )?feature "([^"]*)"(?: file)?:$`, tc.aFeatureFile)
+	ctx.Then(`^the suite should have (passed|failed)$`, tc.theSuiteShouldHave)
 
-	ctx.Step(`^(?:a )?failing step`, tc.aFailingStep)
+	ctx.Then(`^I should have ([\d]+) features? files?:$`, tc.iShouldHaveNumFeatureFiles)
+	ctx.Then(`^I should have ([\d]+) scenarios? registered$`, tc.numScenariosRegistered)
+	// TODO: seems to be orphaned/unused - remove?
+	ctx.Then(`^there (was|were) ([\d]+) "([^"]*)" events? fired$`, tc.thereWereNumEventsFired)
+	ctx.Then(`^there was event triggered before scenario "([^"]*)"$`, tc.thereWasEventTriggeredBeforeScenario)
+	ctx.Then(`^these events had to be fired for a number of times:$`, tc.theseEventsHadToBeFiredForNumberOfTimes)
+
+	ctx.Given(`^(?:a )?failing step`, tc.aFailingStep)
+	// TODO: seems to be orphaned/unused - remove?
 	ctx.Step(`^this step should fail`, tc.aFailingStep)
-	ctx.Step(`^the following steps? should be (passed|failed|skipped|undefined|pending):`, tc.followingStepsShouldHave)
-	ctx.Step(`^the undefined step snippets should be:$`, tc.theUndefinedStepSnippetsShouldBe)
+	ctx.Then(`^the following steps? should be (passed|failed|skipped|undefined|pending):`, tc.followingStepsShouldHave)
+	ctx.Then(`^the undefined step snippets should be:$`, tc.theUndefinedStepSnippetsShouldBe)
 
 	// event stream
-	ctx.Step(`^the following events should be fired:$`, tc.thereShouldBeEventsFired)
+	ctx.Then(`^the following events should be fired:$`, tc.thereShouldBeEventsFired)
 
 	// lt
-	ctx.Step(`^savybių aplankas "([^"]*)"$`, tc.featurePath)
-	ctx.Step(`^aš išskaitau savybes$`, tc.parseFeatures)
-	ctx.Step(`^aš turėčiau turėti ([\d]+) savybių failus:$`, tc.iShouldHaveNumFeatureFiles)
+	ctx.Given(`^savybių aplankas "([^"]*)"$`, tc.featurePath)
+	ctx.When(`^aš išskaitau savybes$`, tc.parseFeatures)
+	ctx.Then(`^aš turėčiau turėti ([\d]+) savybių failus:$`, tc.iShouldHaveNumFeatureFiles)
 
-	ctx.Step(`^(?:a )?pending step$`, func() error {
+	ctx.When(`^(?:a )?pending step$`, func() error {
 		return ErrPending
 	})
-	ctx.Step(`^(?:a )?passing step$`, func() error {
+	ctx.Given(`^(?:a )?passing step$`, func() error {
 		return nil
 	})
 	ctx.Given(`^(?:a )?given step$`, func() error {
@@ -84,19 +87,19 @@ func InitializeScenario(ctx *ScenarioContext) {
 	})
 
 	// Introduced to test formatter/cucumber.feature
-	ctx.Step(`^the rendered json will be as follows:$`, tc.theRenderJSONWillBe)
+	ctx.Then(`^the rendered json will be as follows:$`, tc.theRenderJSONWillBe)
 
 	// Introduced to test formatter/pretty.feature
-	ctx.Step(`^the rendered output will be as follows:$`, tc.theRenderOutputWillBe)
+	ctx.Then(`^the rendered output will be as follows:$`, tc.theRenderOutputWillBe)
 
 	// Introduced to test formatter/junit.feature
-	ctx.Step(`^the rendered xml will be as follows:$`, tc.theRenderXMLWillBe)
+	ctx.Then(`^the rendered xml will be as follows:$`, tc.theRenderXMLWillBe)
 
-	ctx.Step(`^(?:a )?failing multistep$`, func() Steps {
+	ctx.When(`^(?:a )?failing multistep$`, func() Steps {
 		return Steps{"passing step", "failing step"}
 	})
 
-	ctx.Step(`^(?:a |an )?undefined multistep$`, func() Steps {
+	ctx.When(`^(?:a |an )?undefined multistep$`, func() Steps {
 		return Steps{"passing step", "undefined step", "passing step"}
 	})
 
@@ -104,7 +107,7 @@ func InitializeScenario(ctx *ScenarioContext) {
 		return Steps{"given step", "undefined step", "then step"}
 	})
 
-	ctx.Step(`^(?:a )?passing multistep$`, func() Steps {
+	ctx.Then(`^(?:a )?passing multistep$`, func() Steps {
 		return Steps{"passing step", "passing step", "passing step"}
 	})
 
@@ -112,24 +115,25 @@ func InitializeScenario(ctx *ScenarioContext) {
 		return Steps{"given step", "when step", "then step"}
 	})
 
-	ctx.Step(`^(?:a )?failing nested multistep$`, func() Steps {
+	ctx.Given(`^(?:a )?failing nested multistep$`, func() Steps {
 		return Steps{"passing step", "passing multistep", "failing multistep"}
 	})
+
 	// Default recovery step
-	ctx.Step(`Ignore.*`, func() error {
+	ctx.When(`Ignore.*`, func() error {
 		return nil
 	})
 
-	ctx.Step(`^call func\(\*godog\.DocString\) with:$`, func(arg *DocString) error {
+	ctx.Given(`^call func\(\*godog\.DocString\) with:$`, func(arg *DocString) error {
 		return nil
 	})
-	ctx.Step(`^call func\(string\) with:$`, func(arg string) error {
+	ctx.Given(`^call func\(string\) with:$`, func(arg string) error {
 		return nil
 	})
 
-	ctx.Step(`^passing step without return$`, func() {})
+	ctx.Given(`^passing step without return$`, func() {})
 
-	ctx.Step(`^having correct context$`, func(ctx context.Context) (context.Context, error) {
+	ctx.Then(`^having correct context$`, func(ctx context.Context) (context.Context, error) {
 		if ctx.Value(ctxKey("BeforeScenario")) == nil {
 			return ctx, errors.New("missing BeforeScenario in context")
 		}
@@ -145,13 +149,13 @@ func InitializeScenario(ctx *ScenarioContext) {
 		return context.WithValue(ctx, ctxKey("Step"), true), nil
 	})
 
-	ctx.Step(`^adding step state to context$`, func(ctx context.Context) context.Context {
+	ctx.Then(`^adding step state to context$`, func(ctx context.Context) context.Context {
 		return context.WithValue(ctx, ctxKey("StepState"), true)
 	})
 
-	ctx.Step(`^I return a context from a step$`, tc.iReturnAContextFromAStep)
-	ctx.Step(`^I should see the context in the next step$`, tc.iShouldSeeTheContextInTheNextStep)
-	ctx.Step(`^I can see contexts passed in multisteps$`, func() Steps {
+	ctx.Given(`^I return a context from a step$`, tc.iReturnAContextFromAStep)
+	ctx.Then(`^I should see the context in the next step$`, tc.iShouldSeeTheContextInTheNextStep)
+	ctx.Given(`^I can see contexts passed in multisteps$`, func() Steps {
 		return Steps{
 			"I return a context from a step",
 			"I should see the context in the next step",

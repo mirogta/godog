@@ -71,8 +71,8 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 		return ctx, nil
 	})
 
-	ctx.Step(`^there are (\d+) godogs$`, thereAreGodogs)
-	ctx.Step(`^I eat (\d+)$`, iEat)
-	ctx.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
-	ctx.Step(`^this step is pending$`, thisStepIsPending)
+	ctx.Given(`^there are (\d+) godogs$`, thereAreGodogs)
+	ctx.When(`^I eat (\d+)$`, iEat)
+	ctx.Then(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
+	ctx.Then(`^this step is pending$`, thisStepIsPending)
 }

@@ -76,9 +76,9 @@ func thereShouldBeRemaining(remaining int) error {
 
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step("^there are (\\d+) godogs$", thereAreGodogs)
-	ctx.Step("^I eat (\\d+)$", iEat)
-	ctx.Step("^there should be (\\d+) remaining$", thereShouldBeRemaining)
+	ctx.Given("^there are (\\d+) godogs$", thereAreGodogs)
+	ctx.When("^I eat (\\d+)$", iEat)
+	ctx.Then("^there should be (\\d+) remaining$", thereShouldBeRemaining)
 
 	ctx.BeforeScenario(func(*godog.Scenario) {
 		Godogs = 0 // clean the state before every scenario
@@ -117,9 +117,9 @@ func thereShouldBeRemaining(remaining int) error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step("^there are (\\d+) godogs$", thereAreGodogs)
-	ctx.Step("^I eat (\\d+)$", iEat)
-	ctx.Step("^there should be (\\d+) remaining$", thereShouldBeRemaining)
+	ctx.Given("^there are (\\d+) godogs$", thereAreGodogs)
+	ctx.When("^I eat (\\d+)$", iEat)
+	ctx.Then("^there should be (\\d+) remaining$", thereShouldBeRemaining)
 
 	ctx.BeforeScenario(func(*godog.Scenario) {
 		godogs.Godogs = 0 // clean the state before every scenario

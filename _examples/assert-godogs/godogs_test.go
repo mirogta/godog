@@ -69,10 +69,10 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 		return ctx, nil
 	})
 
-	ctx.Step(`^there are (\d+) godogs$`, thereAreGodogs)
-	ctx.Step(`^I eat (\d+)$`, iEat)
-	ctx.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
-	ctx.Step(`^there should be none remaining$`, thereShouldBeNoneRemaining)
+	ctx.Given(`^there are (\d+) godogs$`, thereAreGodogs)
+	ctx.When(`^I eat (\d+)$`, iEat)
+	ctx.Then(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
+	ctx.Then(`^there should be none remaining$`, thereShouldBeNoneRemaining)
 }
 
 // assertExpectedAndActual is a helper function to allow the step function to call

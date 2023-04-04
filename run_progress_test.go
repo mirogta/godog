@@ -2,11 +2,12 @@ package godog
 
 import (
 	"bytes"
-	"github.com/cucumber/messages/go/v21"
 	"strings"
 	"testing"
 
-	"github.com/cucumber/gherkin/go/v26"
+	messages "github.com/cucumber/messages/go/v21"
+
+	gherkin "github.com/cucumber/gherkin/go/v26"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -40,8 +41,8 @@ func Test_ProgressFormatterWhenStepPanics(t *testing.T) {
 		fmt:      formatters.ProgressFormatterFunc("progress", w),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^one$`, func() error { return nil })
-			ctx.Step(`^two$`, func() error { panic("omg") })
+			ctx.When(`^one$`, func() error { return nil })
+			ctx.Then(`^two$`, func() error { panic("omg") })
 		},
 	}
 
@@ -74,11 +75,11 @@ func Test_ProgressFormatterWithPanicInMultistep(t *testing.T) {
 		fmt:      formatters.ProgressFormatterFunc("progress", w),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^sub1$`, func() error { return nil })
-			ctx.Step(`^sub-sub$`, func() error { return nil })
-			ctx.Step(`^sub2$`, func() []string { return []string{"sub-sub", "sub1", "one"} })
-			ctx.Step(`^one$`, func() error { return nil })
-			ctx.Step(`^two$`, func() []string { return []string{"sub1", "sub2"} })
+			ctx.When(`^sub1$`, func() error { return nil })
+			ctx.When(`^sub-sub$`, func() error { return nil })
+			ctx.When(`^sub2$`, func() []string { return []string{"sub-sub", "sub1", "one"} })
+			ctx.When(`^one$`, func() error { return nil })
+			ctx.When(`^two$`, func() []string { return []string{"sub1", "sub2"} })
 		},
 	}
 
@@ -108,10 +109,10 @@ func Test_ProgressFormatterMultistepTemplates(t *testing.T) {
 		fmt:      formatters.ProgressFormatterFunc("progress", w),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^sub-sub$`, func() error { return nil })
-			ctx.Step(`^substep$`, func() Steps { return Steps{"sub-sub", `unavailable "John" cost 5`, "one", "three"} })
-			ctx.Step(`^one$`, func() error { return nil })
-			ctx.Step(`^(t)wo$`, func(s string) Steps { return Steps{"undef", "substep"} })
+			ctx.When(`^sub-sub$`, func() error { return nil })
+			ctx.When(`^substep$`, func() Steps { return Steps{"sub-sub", `unavailable "John" cost 5`, "one", "three"} })
+			ctx.When(`^one$`, func() error { return nil })
+			ctx.When(`^(t)wo$`, func(s string) Steps { return Steps{"undef", "substep"} })
 		},
 	}
 
@@ -146,9 +147,9 @@ func undef() error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(` + "`^three$`" + `, three)
-	ctx.Step(` + "`^unavailable \"([^\"]*)\" cost (\\d+)$`" + `, unavailableCost)
-	ctx.Step(` + "`^undef$`" + `, undef)
+	ctx.When(` + "`^three$`" + `, three)
+	ctx.When(` + "`^unavailable \"([^\"]*)\" cost (\\d+)$`" + `, unavailableCost)
+	ctx.When(` + "`^undef$`" + `, undef)
 }
 
 `
@@ -184,8 +185,8 @@ Feature: basic
 		fmt:      formatters.ProgressFormatterFunc("progress", w),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^one$`, func() error { return nil })
-			ctx.Step(`^two:$`, func(doc *messages.PickleDocString) Steps { return Steps{"one"} })
+			ctx.When(`^one$`, func() error { return nil })
+			ctx.When(`^two:$`, func(doc *messages.PickleDocString) Steps { return Steps{"one"} })
 		},
 	}
 
@@ -228,9 +229,9 @@ Feature: basic
 		fmt:      formatters.ProgressFormatterFunc("progress", w),
 		features: []*models.Feature{&ft},
 		scenarioInitializer: func(ctx *ScenarioContext) {
-			ctx.Step(`^one$`, func() error { return nil })
-			ctx.Step(`^two$`, func() Steps { return Steps{subStep} })
-			ctx.Step(`^three:$`, func(doc *messages.PickleDocString) error { return nil })
+			ctx.When(`^one$`, func() error { return nil })
+			ctx.Then(`^two$`, func() Steps { return Steps{subStep} })
+			ctx.Then(`^three:$`, func(doc *messages.PickleDocString) error { return nil })
 		},
 	}
 
